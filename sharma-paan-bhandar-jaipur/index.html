@@ -1,0 +1,438 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Sharma Paan Bhandar — Order on WhatsApp</title>
+  <meta name="description" content="Sharma Paan Bhandar, Jaipur. Select items and order on WhatsApp. 3 items available.">
+  <meta property="og:title" content="Sharma Paan Bhandar">
+  <meta property="og:description" content="3 items · Jaipur · Select &amp; order on WhatsApp">
+  <meta property="og:image" content="https://jfbsscdwbbztuyyhnvsl.supabase.co/storage/v1/object/public/merchant-photos/919876543210.jpg?v=1789918956643">
+  <meta property="og:type" content="website">
+  <meta name="theme-color" content="#25D366">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    *{margin:0;padding:0;box-sizing:border-box}
+    body{font-family:'Poppins',sans-serif;background:#f5f3ef;color:#1a1a1a;max-width:480px;margin:0 auto;min-height:100vh;padding-bottom:120px}
+    button{touch-action:manipulation}
+    .demo-banner{background:#c0392b;color:#fff;text-align:center;padding:11px 16px;font-size:13px;font-weight:600;position:sticky;top:0;z-index:99;letter-spacing:.3px}
+
+    /* Hero */
+    .hero{position:relative;width:100%;aspect-ratio:16/10;max-height:290px;overflow:hidden;background:#c9b99a}
+    .hero img{width:100%;height:100%;object-fit:cover;display:block}
+    .hero-overlay{position:absolute;inset:0;background:linear-gradient(to bottom,rgba(0,0,0,.08) 0%,rgba(0,0,0,.12) 40%,rgba(0,0,0,.72) 100%);display:flex;flex-direction:column;justify-content:flex-end;padding:20px}
+    .status-badge{display:none;align-items:center;gap:6px;font-size:11px;font-weight:600;padding:5px 11px;border-radius:20px;margin-bottom:10px;backdrop-filter:blur(6px);width:fit-content;color:#fff}
+    .status-badge.show{display:inline-flex}
+    .status-badge.open{background:rgba(37,211,102,.28);border:1px solid rgba(37,211,102,.55)}
+    .status-badge.closed{background:rgba(0,0,0,.42);border:1px solid rgba(255,255,255,.28)}
+    .status-dot{width:7px;height:7px;border-radius:50%;background:#25D366}
+    .status-badge.open .status-dot{animation:blink 1.4s infinite}
+    .status-badge.closed .status-dot{background:#e0a800;animation:none}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:.35}}
+    .business-name{color:#fff;font-size:28px;font-weight:700;line-height:1.2;text-shadow:0 2px 8px rgba(0,0,0,.4)}
+    .hero-city{color:rgba(255,255,255,.88);font-size:13px;margin-top:5px;font-weight:400}
+
+    .info-strip{display:flex;flex-direction:column;gap:6px;padding:14px 16px 2px}
+    .info-chip{font-size:13px;color:#555;font-weight:500;line-height:1.5}
+    .closed-notice{display:none;margin:12px 16px 0;background:#fff8e1;border:1px solid #ffe08a;color:#8a6d00;border-radius:12px;padding:11px 14px;font-size:13px;line-height:1.5}
+    .closed-notice.show{display:block}
+    .search-wrap{padding:14px 16px 0}
+    .card{background:#fff;border-radius:16px;margin:12px 16px 0;padding:20px;box-shadow:0 1px 8px rgba(0,0,0,.07)}
+    .no-results{display:none;text-align:center;color:#999;font-size:14px;padding:12px 0}
+    .no-results.show{display:block}
+
+    /* Product rows */
+    .product-card{display:flex;align-items:center;gap:10px;padding:11px 0;border-bottom:1px solid #f5f3ef;transition:background .15s}
+    .product-card:last-child{border-bottom:none}
+    .product-card.hidden{display:none}
+    .product-card.in-cart{background:#f0fdf4;margin:0 -20px;padding:11px 20px;border-radius:10px;border-bottom-color:transparent}
+    .product-card.oos{opacity:.45;pointer-events:none}
+    .item-num{width:28px;height:28px;background:#fef3ef;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:#e8552a;flex-shrink:0;transition:background .15s,color .15s}
+    .product-card.in-cart .item-num{background:#dcfce7;color:#16a34a}
+    .item-info{flex:1;min-width:0}
+    .item-name{font-size:15px;font-weight:500;color:#1a1a1a;display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+    .item-price{font-size:13px;font-weight:600;color:#e8552a;display:block;margin-top:1px}
+    .item-unit{font-size:12px;font-weight:400;color:#aaa}
+    .qty-ctrl{display:flex;align-items:center;flex-shrink:0}
+    .qty-btn{width:44px;height:44px;background:#f5f3ef;color:#1a1a1a;border:none;font-size:19px;cursor:pointer;border-radius:10px;display:flex;align-items:center;justify-content:center;font-weight:300;transition:background .1s;line-height:1}
+    .qty-btn:active{background:#e0ddd8}
+    .qty-add{background:#e8552a;color:#fff}
+    .qty-add:active{background:#c94520}
+    .qty-count{width:34px;text-align:center;font-size:15px;font-weight:700;color:#1a1a1a}
+    .oos-badge{font-size:11px;font-weight:700;color:#aaa;background:#f0f0f0;padding:6px 12px;border-radius:20px;white-space:nowrap}
+
+    /* Sticky cart bar */
+    .cart-bar{position:fixed;bottom:0;left:50%;transform:translateX(-50%);width:100%;max-width:480px;background:#fff;padding:14px 16px calc(20px + env(safe-area-inset-bottom));box-shadow:0 -4px 24px rgba(0,0,0,.14);z-index:50;display:none}
+    .cart-bar.visible{display:block;animation:slideUp .25s ease}
+    @keyframes slideUp{from{transform:translateX(-50%) translateY(100%)}to{transform:translateX(-50%) translateY(0)}}
+    .cart-summary{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;padding:0 4px}
+    .cart-items-label{font-size:13px;color:#888;font-weight:500}
+    .cart-total{font-size:20px;font-weight:700;color:#1a1a1a}
+    .cart-clear{background:none;border:none;color:#c0392b;font-size:12px;font-weight:600;cursor:pointer;font-family:inherit;padding:6px 8px;margin-left:6px}
+    .cart-wa-btn{display:flex;align-items:center;justify-content:center;gap:10px;background:#25D366;color:#fff;font-size:16px;font-weight:700;padding:16px;border-radius:14px;text-decoration:none;width:100%;border:none;cursor:pointer;font-family:'Poppins',sans-serif;box-shadow:0 4px 16px rgba(37,211,102,.4);animation:pulse 2.2s infinite}
+    @keyframes pulse{0%{box-shadow:0 4px 16px rgba(37,211,102,.4)}60%{box-shadow:0 0 0 14px rgba(37,211,102,0)}100%{box-shadow:0 4px 16px rgba(37,211,102,.4)}}
+    @media (prefers-reduced-motion:reduce){.cart-wa-btn,.status-dot{animation:none}}
+    .wa-icon{width:20px;height:20px;flex-shrink:0}
+
+    /* Bottom sheets */
+    .sheet-backdrop{display:none;position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:200;align-items:flex-end;justify-content:center}
+    .sheet{background:#fff;border-radius:20px 20px 0 0;padding:24px 20px calc(36px + env(safe-area-inset-bottom));width:100%;max-width:480px;max-height:92vh;overflow-y:auto}
+    .co-title{font-size:17px;font-weight:700}
+    .co-label{font-size:12px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:#999;margin-bottom:7px;display:block}
+    .co-optional{color:#bbb;font-weight:400;text-transform:none;letter-spacing:0}
+    .co-input{width:100%;padding:13px;border:1.5px solid #e0e0e0;border-radius:10px;font-size:16px;font-family:'Poppins',sans-serif;outline:none;resize:none;transition:border-color .15s;background:#fff;color:#1a1a1a}
+    .co-input:focus{border-color:#25D366}
+    .co-input.invalid{border-color:#c0392b}
+    .co-error{display:none;font-size:12px;color:#c0392b;margin-top:5px}
+    .co-error.show{display:block}
+    .co-hint{font-size:12px;color:#888;margin-top:5px}
+    .co-privacy{font-size:11px;color:#aaa;text-align:center;margin-top:12px;line-height:1.5}
+    .link-btn{margin-top:18px;background:none;border:none;color:#999;font-size:14px;cursor:pointer;font-family:inherit;padding:8px}
+
+    .footer{text-align:center;padding:28px 16px 8px;font-size:12px;line-height:2}
+    .footer a{color:#bbb;text-decoration:none;font-weight:500}
+    .report-link{font-size:11px}
+  </style>
+</head>
+<body>
+  
+  
+  <script>
+    (function() {
+      try {
+        var url = 'https://yourpager.in/api/track?slug=sharma-paan-bhandar-jaipur';
+        if (navigator.sendBeacon) { navigator.sendBeacon(url); }
+        else { fetch(url, { method: 'GET', keepalive: true }).catch(function(){}); }
+      } catch (e) {}
+    })();
+  </script>
+
+  <div class="hero">
+    <img src="https://jfbsscdwbbztuyyhnvsl.supabase.co/storage/v1/object/public/merchant-photos/919876543210.jpg?v=1789918956643" alt="Sharma Paan Bhandar" width="480" height="290" loading="eager" decoding="async">
+    <div class="hero-overlay">
+      <div class="status-badge" id="status-badge"><span class="status-dot"></span><span id="status-text"></span></div>
+      <div class="business-name">Sharma Paan Bhandar</div>
+      <div class="hero-city">📍 Jaipur</div>
+    </div>
+  </div>
+
+  
+  <div class="info-strip">
+    <span class="info-chip">🕐 10am-8pm, Mon-Sat</span>
+    <span class="info-chip">🚚 Jaipur city only</span>
+    
+  </div>
+
+  <div class="closed-notice" id="closed-notice">
+    🕐 The shop is closed right now. You can still place an order — they'll reply when they reopen.
+  </div>
+
+  
+
+  <div class="card">
+    
+    <div class="product-card" id="row-0" data-name="paan">
+      <span class="item-num" id="num-0">01</span>
+      <div class="item-info">
+        <span class="item-name">Paan</span>
+        <span class="item-price">₹35 <span class="item-unit">· 1piece</span></span>
+      </div>
+      <div class="qty-ctrl" id="ctrl-0">
+        <button class="qty-btn" onclick="updateQty(0,-1)" aria-label="Remove one Paan">−</button>
+        <span class="qty-count" id="qty-0">0</span>
+        <button class="qty-btn qty-add" onclick="updateQty(0,1)" aria-label="Add one Paan">+</button>
+      </div>
+    </div>
+    <div class="product-card" id="row-1" data-name="chocolate paan">
+      <span class="item-num" id="num-1">02</span>
+      <div class="item-info">
+        <span class="item-name">Chocolate Paan</span>
+        <span class="item-price">₹60 <span class="item-unit">· 1</span></span>
+      </div>
+      <div class="qty-ctrl" id="ctrl-1">
+        <button class="qty-btn" onclick="updateQty(1,-1)" aria-label="Remove one Chocolate Paan">−</button>
+        <span class="qty-count" id="qty-1">0</span>
+        <button class="qty-btn qty-add" onclick="updateQty(1,1)" aria-label="Add one Chocolate Paan">+</button>
+      </div>
+    </div>
+    <div class="product-card" id="row-2" data-name="fire paan">
+      <span class="item-num" id="num-2">03</span>
+      <div class="item-info">
+        <span class="item-name">Fire Paan</span>
+        <span class="item-price">₹45 <span class="item-unit">· 1 piece</span></span>
+      </div>
+      <div class="qty-ctrl" id="ctrl-2">
+        <button class="qty-btn" onclick="updateQty(2,-1)" aria-label="Remove one Fire Paan">−</button>
+        <span class="qty-count" id="qty-2">0</span>
+        <button class="qty-btn qty-add" onclick="updateQty(2,1)" aria-label="Add one Fire Paan">+</button>
+      </div>
+    </div>
+    <div class="no-results" id="no-results">No items match your search.</div>
+  </div>
+
+  
+  <div class="footer">
+    <a href="https://wa.me/917073515692">Create your own page on YourPager →</a><br>
+    <a class="report-link" href="https://yourpager.in/report.html?page=sharma-paan-bhandar-jaipur">Report this page</a>
+  </div>
+
+  <div class="cart-bar" id="cart-bar">
+    <div class="cart-summary">
+      <span>
+        <span class="cart-items-label" id="cart-label">0 items</span>
+        <button class="cart-clear" onclick="clearCart()">Clear</button>
+      </span>
+      <span class="cart-total" id="cart-total">₹0</span>
+    </div>
+    <button class="cart-wa-btn" onclick="openCheckout()"><svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg> Review order →</button>
+  </div>
+
+  
+  
+    <div id="checkout-modal" class="sheet-backdrop" onclick="closeCheckout()">
+      <div class="sheet" onclick="event.stopPropagation()">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+          <h3 class="co-title">Confirm your order</h3>
+          <button onclick="closeCheckout()" aria-label="Close" style="background:none;border:none;font-size:24px;color:#aaa;cursor:pointer;line-height:1;padding:6px">×</button>
+        </div>
+
+        <div id="co-order-summary" style="background:#f8f8f8;border-radius:12px;padding:12px 14px;margin-bottom:16px;font-size:13px;color:#555;line-height:1.8"></div>
+
+        <label class="co-label" for="co-name">Your name</label>
+        <input id="co-name" class="co-input" type="text" autocomplete="name" placeholder="So the shop knows who's ordering" maxlength="60">
+        <p class="co-error" id="co-name-error">Please enter your name.</p>
+
+        <div style="margin-top:12px">
+          <label class="co-label" for="co-address">Address / location <span class="co-optional">(optional)</span></label>
+          <textarea id="co-address" class="co-input" rows="2" maxlength="300" placeholder="For delivery: full address. For pickup: leave blank."></textarea>
+          <p class="co-hint">📍 Delivers to Jaipur city only</p>
+        </div>
+
+        <div style="margin-top:12px">
+          <label class="co-label" for="co-note">Message / special request <span class="co-optional">(optional)</span></label>
+          <input id="co-note" class="co-input" type="text" maxlength="200" placeholder="Preferred time, flavour, instructions…">
+        </div>
+
+        <button class="cart-wa-btn" style="margin-top:18px;animation:none" onclick="sendOrder()"><svg class="wa-icon" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+    <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+  </svg> Send on WhatsApp</button>
+        <p class="co-privacy">Your details are sent straight to the shop on WhatsApp. We don't store them.</p>
+      </div>
+    </div>
+
+  <script>
+    var PRODUCTS  = [{"name":"Paan","unit":"1piece","price":35},{"name":"Chocolate Paan","unit":"1","price":60},{"name":"Fire Paan","unit":"1 piece","price":45}];
+    var WA        = "919876543210";
+    var BIZ       = "Sharma Paan Bhandar";
+    var SLUG      = "sharma-paan-bhandar-jaipur";
+    var API       = "https://yourpager.in";
+    var IS_DEMO   = false;
+    var OPEN_FROM = 600;
+    var OPEN_TO   = 1200;
+
+    var CART_KEY  = 'yp-cart:' + SLUG;
+    var cart = {};
+    var cartLines = [];
+    var cartTotal = 0;
+    var soldOut = {};
+
+    // ── Open / closed (evaluated in IST, not the visitor's timezone) ────────
+    function istMinutesNow() {
+      var utc = Date.now() + new Date().getTimezoneOffset() * 60000;
+      var ist = new Date(utc + 5.5 * 3600000);
+      return ist.getHours() * 60 + ist.getMinutes();
+    }
+
+    function renderStatus() {
+      if (OPEN_FROM === null || OPEN_TO === null) return;
+      var now = istMinutesNow();
+      var open = OPEN_TO > OPEN_FROM
+        ? (now >= OPEN_FROM && now < OPEN_TO)
+        : (now >= OPEN_FROM || now < OPEN_TO); // range crosses midnight
+      var badge = document.getElementById('status-badge');
+      badge.className = 'status-badge show ' + (open ? 'open' : 'closed');
+      document.getElementById('status-text').textContent = open ? 'Open for orders' : 'Closed right now';
+      if (!open) document.getElementById('closed-notice').classList.add('show');
+    }
+
+    // ── Cart ────────────────────────────────────────────────────────────────
+    function loadCart() {
+      try {
+        var saved = JSON.parse(sessionStorage.getItem(CART_KEY) || '{}');
+        Object.keys(saved).forEach(function(i) {
+          var idx = parseInt(i, 10);
+          if (PRODUCTS[idx] && saved[i] > 0) cart[idx] = saved[i];
+        });
+      } catch (e) {}
+      Object.keys(cart).forEach(function(i) { paintRow(i); });
+      renderCart();
+    }
+
+    function saveCart() {
+      try { sessionStorage.setItem(CART_KEY, JSON.stringify(cart)); } catch (e) {}
+    }
+
+    function paintRow(idx) {
+      var qtyEl = document.getElementById('qty-' + idx);
+      if (qtyEl) qtyEl.textContent = cart[idx] || 0;
+      var row = document.getElementById('row-' + idx);
+      if (row) row.classList.toggle('in-cart', (cart[idx] || 0) > 0);
+    }
+
+    function updateQty(idx, delta) {
+      if (soldOut[idx]) return;
+      cart[idx] = Math.max(0, (cart[idx] || 0) + delta);
+      if (cart[idx] === 0) delete cart[idx];
+      paintRow(idx);
+      saveCart();
+      renderCart();
+    }
+
+    function clearCart() {
+      Object.keys(cart).forEach(function(i) { delete cart[i]; paintRow(i); });
+      saveCart();
+      renderCart();
+    }
+
+    function renderCart() {
+      var total = 0, count = 0;
+      cartLines = [];
+
+      PRODUCTS.forEach(function(p, i) {
+        var qty = cart[i] || 0;
+        if (qty <= 0) return;
+        var sub = p.price * qty;
+        total += sub;
+        count += qty;
+        var label = p.name + (p.unit ? ' (' + p.unit + ')' : '');
+        cartLines.push('\u2022 ' + label + ' x' + qty + ' = \u20b9' + sub.toLocaleString('en-IN'));
+      });
+      cartTotal = total;
+
+      var bar = document.getElementById('cart-bar');
+      if (count === 0) { bar.classList.remove('visible'); return; }
+      bar.classList.add('visible');
+      document.getElementById('cart-label').textContent = count + (count === 1 ? ' item' : ' items') + ' selected';
+      document.getElementById('cart-total').textContent = '\u20b9' + total.toLocaleString('en-IN');
+    }
+
+    // ── Search ──────────────────────────────────────────────────────────────
+    function filterProducts(term) {
+      var q = (term || '').trim().toLowerCase();
+      var visible = 0;
+      PRODUCTS.forEach(function(p, i) {
+        var row = document.getElementById('row-' + i);
+        if (!row) return;
+        var match = !q || row.getAttribute('data-name').indexOf(q) !== -1;
+        row.classList.toggle('hidden', !match);
+        if (match) visible++;
+      });
+      document.getElementById('no-results').classList.toggle('show', visible === 0);
+    }
+
+    // ── Sold out ────────────────────────────────────────────────────────────
+    function markOOS(idx) {
+      soldOut[idx] = true;
+      var ctrl = document.getElementById('ctrl-' + idx);
+      var row = document.getElementById('row-' + idx);
+      if (ctrl) ctrl.innerHTML = '<span class="oos-badge">Sold Out</span>';
+      if (row) row.classList.add('oos');
+      if (cart[idx]) { delete cart[idx]; paintRow(idx); saveCart(); renderCart(); }
+    }
+
+    // ── Checkout ────────────────────────────────────────────────────────────
+    function openCheckout() {
+      if (IS_DEMO) { document.getElementById('demo-modal').style.display = 'flex'; return; }
+      var summary = document.getElementById('co-order-summary');
+      if (summary) {
+        summary.innerHTML = cartLines.map(escapeHtml).join('<br>')
+          + '<br><strong>Total: \u20b9' + cartTotal.toLocaleString('en-IN') + '</strong>';
+      }
+      document.getElementById('checkout-modal').style.display = 'flex';
+      var nameEl = document.getElementById('co-name');
+      if (nameEl) nameEl.focus();
+    }
+
+    function closeCheckout() {
+      var mdl = document.getElementById('checkout-modal');
+      if (mdl) mdl.style.display = 'none';
+    }
+
+    function escapeHtml(s) {
+      return String(s).replace(/[&<>"]/g, function(c) {
+        return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c];
+      });
+    }
+
+    function orderRef() {
+      return 'W' + Date.now().toString(36).slice(-4).toUpperCase()
+           + Math.floor(Math.random() * 36).toString(36).toUpperCase();
+    }
+
+    function val(id) {
+      var el = document.getElementById(id);
+      return el ? el.value.trim() : '';
+    }
+
+    function sendOrder() {
+      var name = val('co-name');
+      var nameEl = document.getElementById('co-name');
+      if (!name) {
+        nameEl.classList.add('invalid');
+        document.getElementById('co-name-error').classList.add('show');
+        nameEl.focus();
+        return;
+      }
+      nameEl.classList.remove('invalid');
+      document.getElementById('co-name-error').classList.remove('show');
+
+      var address = val('co-address');
+      var note    = val('co-note');
+      var ref     = orderRef();
+
+      var msg = 'Hi! I want to order from ' + BIZ + '\n'
+        + 'Order ' + ref + '\n\n'
+        + cartLines.join('\n')
+        + '\n\n*Total: \u20b9' + cartTotal.toLocaleString('en-IN') + '*'
+        + '\n\n\ud83d\udc64 ' + name;
+
+      if (address) msg += '\n\ud83d\udccd ' + address;
+      if (note)    msg += '\n\ud83d\udcdd ' + note;
+      msg += '\n\nPlease confirm \ud83d\ude4f';
+
+      // Tell the merchant's dashboard an order was actually started
+      if (API && SLUG) {
+        try {
+          var t = API + '/api/track?slug=' + encodeURIComponent(SLUG) + '&event=order';
+          if (navigator.sendBeacon) navigator.sendBeacon(t);
+          else fetch(t, { method: 'GET', keepalive: true }).catch(function(){});
+        } catch (e) {}
+      }
+
+      closeCheckout();
+      clearCart();
+      // Same-tab navigation: window.open is blocked by iOS Safari here
+      window.location.href = 'https://wa.me/' + WA + '?text=' + encodeURIComponent(msg);
+    }
+
+    renderStatus();
+    loadCart();
+
+    // Grey out anything the shop has marked sold out since this page was built
+    fetch(API + '/api/stock?slug=' + encodeURIComponent(SLUG))
+      .then(function(r) { return r.json(); })
+      .then(function(d) {
+        var oos = d.unavailable || [];
+        PRODUCTS.forEach(function(p, i) {
+          if (oos.indexOf(p.name) !== -1) markOOS(i);
+        });
+      })
+      .catch(function(){});
+
+  </script>
+</body>
+</html>
