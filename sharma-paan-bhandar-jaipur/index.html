@@ -4,9 +4,9 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width,initial-scale=1">
   <title>Sharma Paan Bhandar — Order on WhatsApp</title>
-  <meta name="description" content="Sharma Paan Bhandar, Jaipur. Select items and order on WhatsApp. 3 items available.">
+  <meta name="description" content="Sharma Paan Bhandar, Jaipur. Select items and order on WhatsApp. 4 items available.">
   <meta property="og:title" content="Sharma Paan Bhandar">
-  <meta property="og:description" content="3 items · Jaipur · Select &amp; order on WhatsApp">
+  <meta property="og:description" content="4 items · Jaipur · Select &amp; order on WhatsApp">
   <meta property="og:image" content="https://jfbsscdwbbztuyyhnvsl.supabase.co/storage/v1/object/public/merchant-photos/919876543210.jpg?v=1789918956643">
   <meta property="og:type" content="website">
   <meta name="theme-color" content="#25D366">
@@ -169,6 +169,18 @@
         <button class="qty-btn qty-add" onclick="updateQty(2,1)" aria-label="Add one Fire Paan">+</button>
       </div>
     </div>
+    <div class="product-card" id="row-3" data-name="ice paan">
+      <span class="item-num" id="num-3">04</span>
+      <div class="item-info">
+        <span class="item-name">Ice Paan</span>
+        <span class="item-price">₹45 <span class="item-unit">· 1</span></span>
+      </div>
+      <div class="qty-ctrl" id="ctrl-3">
+        <button class="qty-btn" onclick="updateQty(3,-1)" aria-label="Remove one Ice Paan">−</button>
+        <span class="qty-count" id="qty-3">0</span>
+        <button class="qty-btn qty-add" onclick="updateQty(3,1)" aria-label="Add one Ice Paan">+</button>
+      </div>
+    </div>
     <div class="no-results" id="no-results">No items match your search.</div>
   </div>
 
@@ -225,7 +237,7 @@
     </div>
 
   <script>
-    var PRODUCTS  = [{"name":"Paan","unit":"1piece","price":35},{"name":"Chocolate Paan","unit":"1","price":60},{"name":"Fire Paan","unit":"1 piece","price":45}];
+    var PRODUCTS  = [{"name":"Paan","unit":"1piece","price":35},{"name":"Chocolate Paan","unit":"1","price":60},{"name":"Fire Paan","unit":"1 piece","price":45},{"name":"Ice Paan","unit":"1","price":45}];
     var WA        = "919876543210";
     var BIZ       = "Sharma Paan Bhandar";
     var SLUG      = "sharma-paan-bhandar-jaipur";
